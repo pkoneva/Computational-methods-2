@@ -13,12 +13,12 @@ static long double f(const long double& x)
 	return cos(x);
 }
 void e(double* x, double* y) {
-	fout << "Абсолютная погрешность для вычислений:" << endl;
+	fout << "РђР±СЃРѕР»СЋС‚РЅР°СЏ РїРѕРіСЂРµС€РЅРѕСЃС‚СЊ РІС‹С‡РёСЃР»РµРЅРёР№:" << endl;
 	for (int i = 0; i < k; i++) fout << "(" << x[i] << ";" << fabs(y[i] - f(x[i]))<< ")" << endl ;
 	return;
 }
 void er(double* x, double* arr, int n) {
-	fout << "Относительная погрешность для вычислений:" << endl;
+	fout << "РћС‚РЅРѕСЃРёС‚РµР»СЊРЅР°СЏ РїРѕРіСЂРµС€РЅРѕСЃС‚СЊ РІС‹С‡РёСЃР»РµРЅРёР№:" << endl;
 	for (int i = 0; i < k; i++) {
 		double e = 1;
 		for (int j = 0; j < n; j++) {
@@ -55,7 +55,7 @@ void  Interpol_Newton(double* x, double* arr, int n)
 	for (int m = 0; m < k; m++) {
 		sum[m] = 0;
 		for (int j = 1; j <= n; j++) {
-			double fj = 0;//
+			double fj = 0;
 			for (int i = 0; i < j; i++) {
 				double c = f(arr[i]);
 				for (int l = 0; l < j; l++) if (l != i) c /= (arr[i] - arr[l]);
@@ -78,8 +78,8 @@ void  Interpol_Newton(double* x, double* arr, int n)
 
 
 int main() {
-	double a, b; //границы интервала
-	int n;// разбиение 
+	double a, b; //Р“СЂР°РЅРёС†С‹ РёРЅС‚РµСЂРІР°Р»Р°
+	int n;// Р Р°Р·Р±РёРµРЅРёРµ
 	srand(time(NULL));
 	fin.open("input.txt");
 	fout.open("output.txt");
@@ -91,42 +91,27 @@ int main() {
 	arr2[0] = a; arr2[n - 1] = b;
 	for (int i = 0; i < n; i++) {
 		
-		arr1[i] = a+step*i;// массив равномерных значений сетки
+		arr1[i] = a+step*i;// Р Р°РІРЅРѕРјРµСЂРЅС‹Рµ Р·РЅР°С‡РµРЅРёСЏ СЃРµС‚РєРё
 		double d = (2 * i + 1) * PI / (2 * n + 2);
 		if (i != 0 && i != n-1) {
-			double h = 0.5 * ((b - a) * cos(d) + a + b);// массив из корней полиномов чебышёва
+			double h = 0.5 * ((b - a) * cos(d) + a + b);// РљРѕСЂРЅРё РїРѕР»РёРЅРѕРјР° Р§РµР±С‹С€С‘РІР°
 			arr2[i] = h;
 		}
 	}
-	//for (int i = 0; i < n; i++) {
-	//	arr1[i] = a + step * i;// массив равномерных значений сетки
-	//}
-	//for (int i = 1; i < n-1; i++) {
-
-	//	
-	//	double d = (2 * i + 1) * PI / (2 * n + 2);
-
-	//		double h = 0.5 * ((b - a) * cos(d) + a + b);// массив из корней полиномов чебышёва
-	//		arr2[i] = h;
-	//	
-	//}
 	for (int i = 0; i < k; i++) {
 		x[i] = (double)rand() * (b - a) / RAND_MAX + a;
 	}
-	//for (int i = 0; i < n; i++) {
- //   	fout << "(" << arr1[i] << " ;" << f(arr1[i]) << ")" << endl;// массив равномерных значений сетки
-	//}
 	for (int i = 0; i < n; i++) {
-    	fout <<"(" <<arr2[i] << " ;" << f(arr2[i])<<")" << endl;// массив равномерных значений сетки
+    	fout <<"(" <<arr2[i] << " ;" << f(arr2[i])<<")" << endl;
 	}
-	/*fout << "Интерполировение методом Лагранжа в равномерной сетке:\n";
-	Interpol_Lagrange(x, arr1, n);*/
-	fout << "\n\n Интерполировение методом Лагранжа в узлах - корнях полинома Чебышёва:\n";
-	Interpol_Lagrange(x, arr2, n);
-	/*fout << "Интерполировение методом Ньютона в равномерной сетке:\n";
+        fout << "\nРРЅС‚РµСЂРїРѕР»РёСЂРѕРІРµРЅРёРµ РјРµС‚РѕРґРѕРј РќСЊСЋС‚РѕРЅР° РІ СЂР°РІРЅРѕРјРµСЂРЅРѕР№ СЃРµС‚РєРµ:\n";
 	Interpol_Newton(x, arr1, n);
-	fout << "\n\n Интерполировение методом Ньютона в узлах - корнях полинома Чебышёва:\n";
-	Interpol_Newton(x, arr2, n);*/
+	fout << "\nРРЅС‚РµСЂРїРѕР»РёСЂРѕРІРµРЅРёРµ РјРµС‚РѕРґРѕРј РќСЊСЋС‚РѕРЅР° РІ СѓР·Р»Р°С… - РєРѕСЂРЅСЏС… РїРѕР»РёРЅРѕРјР° Р§РµР±С‹С€С‘РІР°:\n";
+	Interpol_Newton(x, arr2, n);
+	fout << "\nРРЅС‚РµСЂРїРѕР»РёСЂРѕРІРµРЅРёРµ РјРµС‚РѕРґРѕРј Р›Р°РіСЂР°РЅР¶Р° РІ СЂР°РІРЅРѕРјРµСЂРЅРѕР№ СЃРµС‚РєРµ:\n";
+	Interpol_Lagrange(x, arr1, n);
+	fout << "\nРРЅС‚РµСЂРїРѕР»РёСЂРѕРІР°РЅРёРµ РїРѕР»РёРЅРѕРјР° СЃ СѓР·Р»Р°РјРё РІ РєРѕСЂРЅСЏС… РїРѕР»РёРЅРѕРјР° Р§РµР±С‹С€С‘РІР°:\n";
+	Interpol_Lagrange(x, arr2, n);
 	fin.close();
 	fout.close();
 	return 0;
