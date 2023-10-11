@@ -9,7 +9,7 @@ ofstream fout;
 #define PI 3.1415926535
 
 
-/*----подинтегральная функция---*/
+/*----РїРѕРґС‹РЅС‚РµРіСЂР°Р»СЊРЅР°СЏ С„СѓРЅРєС†РёСЏ---*/
 static double f(const double& x)
 {
 	return sin(sin(x))/*exp(-(x * x) / 2)*/;
@@ -20,13 +20,13 @@ static double f2(const double& x)
 	return /*log(x)*/x*x;
 }
 
-/*----Интегрирование методом монте-карло---*/
+/*----РРЅС‚РµРіСЂРёСЂРѕРІР°РЅРёРµ РјРµС‚РѕРґРѕРј РњРѕРЅС‚Рµ-РљР°СЂР»Рѕ---*/
 static double Monte_Karlo(const double& left, const double& right, const double& M)
 {
 	double sum = 0;
 	double x;
 	for (int i = 0; i < M; i++) {
-		x = (double)rand()* (right - left) / RAND_MAX + left;/*(double)((rand() / (right - left + 1)) + left);*/
+		x = (double)rand()* (right - left) / RAND_MAX + left;
 		
 		sum += f(x)*(right - left) / M;
 	}
@@ -34,18 +34,18 @@ static double Monte_Karlo(const double& left, const double& right, const double&
 	const double Dsum = sum / (right - left);
 	double D=0;
 	for (int i = 0; i < M; i++) {
-		x = (double)rand() * (right - left) / RAND_MAX + left;/*(double)((rand() / (right - left + 1)) + left);*/
+		x = (double)rand() * (right - left) / RAND_MAX + left;
 
 		D += pow(f(x) - Dsum, 2)/(M-1);
 	}
 	D = sqrt(D);
-	fout << "Дисперсия для метода Монте-Карло: " << D;
-	fout << "\nОценка точности вычислений для метода Монте-Карло: " << 3 * /*D/M*/D/sqrt(M);
+	fout << "Р”РёСЃРїРµСЂСЃРёСЏ РґР»СЏ РјРµС‚РѕРґР° РњРѕРЅС‚Рµ-РљР°СЂР»Рѕ: " << D;
+	fout << "\nРћС†РµРЅРєР° С‚РѕС‡РЅРѕСЃС‚Рё РІС‹С‡РёСЃР»РµРЅРёР№ РґР»СЏ РјРµС‚РѕРґР° РњРѕРЅС‚Рµ-РљР°СЂР»Рѕ: " << 3 * /*D/M*/D/sqrt(M);
 	return sum/**(right-left) / M*/;
 	
 }
 
-/*----Интегрирование методом правых прямоугольников (составная формула) ---*/
+/*----РРЅС‚РµРіСЂРёСЂРѕРІР°РЅРёРµ РјРµС‚РѕРґРѕРј РїСЂР°РІС‹С… РїСЂСЏРјРѕСѓРіРѕР»СЊРЅРёРєРѕРІ (СЃРѕСЃС‚Р°РІРЅР°СЏ С„РѕСЂРјСѓР»Р°) ---*/
 static double Pr_pryamoyg(const double& left, const double& right, const double& h) {
 	double sum = 0;
 	double x = left;
@@ -67,8 +67,8 @@ int main() {
 	fin >> h >> M;
 	srand(time(NULL));
 
-	fout <<"\nВычисление методом Монте-Карло: "<< Monte_Karlo(a, b, M);
-	fout << "\nВычисление методом правых прямоугольников: " << Pr_pryamoyg(a2, b2, h);
+	fout <<"\nР’С‹С‡РёСЃР»РµРЅРёРµ РјРµС‚РѕРґРѕРј РњРѕРЅС‚Рµ-РљР°СЂР»Рѕ: "<< Monte_Karlo(a, b, M);
+	fout << "\nР’С‹С‡РёСЃР»РµРЅРёРµ РјРµС‚РѕРґРѕРј РїСЂР°РІС‹С… РїСЂСЏРјРѕСѓРіРѕР»СЊРЅРёРєРѕРІ: " << Pr_pryamoyg(a2, b2, h);
 	fin.close();
 	fout.close();
 	return 0;
